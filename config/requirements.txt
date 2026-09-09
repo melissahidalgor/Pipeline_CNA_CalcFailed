@@ -1,0 +1,17 @@
+# Manipulación y procesamiento de estructuras de datos
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Aprendizaje automático y modelado predictivo
+scikit-learn>=1.3.0
+xgboost>=1.7.0
+
+# Explicabilidad del modelo
+shap>=0.42.0
+
+# Visualización analítica y exploratoria
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utilidades de entorno
+python-dotenv>=1.0.0
