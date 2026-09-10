@@ -1,0 +1,23 @@
+﻿{
+  "temperatura": {
+    "min": -5.0,
+    "max": 50.0,
+    "max_dif": 0.3
+  },
+  "humedad": {
+    "min": 0.0,
+    "max": 100.0,
+    "max_dif": 2.0
+  },
+  "presion": {
+    "min": 0.92,
+    "max": 1.1,
+    "max_dif": 0.005
+  },
+  "turbinas": {
+    "G1_FD_INTENS_Min": 40.0,
+    "G2_FD_INTENS_Min": 40.0,
+    "G3_FD_INTENS_Min": 40.0,
+    "G4_FD_INTENS_Min": 40.0
+  }
+}

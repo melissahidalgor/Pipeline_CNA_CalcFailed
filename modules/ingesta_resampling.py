@@ -28,38 +28,40 @@ class PIACEIngestionPipeline:
         soporta cadenas '%d-%b-%y %H:%M:%S' y valores seriales numéricos de Excel (ej. 46233.98).
         """
         s = series.dropna()
-        dt_str = pd.to_datetime(s, format='%d-%b-%y %H:%M:%S', errors='coerce')
+        dt_str = pd.to_datetime(s, format='%d-%b-%y %H:%M:%S', errors='coerce') # Convierte formato dby hmd a fechas
 
-        # Estrategia de respaldo 1 - números seriales tipo Excel
-        mask_bad = dt_str.isna()
+        # Estrategia de respaldo 1 - numeros seriales tipo Excel
+        mask_bad = dt_str.isna() # Mascara de conversiones fallidas
         if mask_bad.any():
-            num = pd.to_numeric(s[mask_bad], errors='coerce')
-            dt_num = pd.to_datetime(num, unit='D', origin='1899-12-30').dt.round('min')
+            num = pd.to_numeric(s[mask_bad], errors='coerce') # Intenta convertir a númerico
+            dt_num = pd.to_datetime(num, unit='D', origin='1899-12-30').dt.round('min') # Transforma los números seriales estilo Excel a fechas
             dt_str = dt_str.fillna(dt_num)
 
-            # Estrategia de respaldo 2 - formato mixto
-            still_na = dt_str.isna()
+        # Estrategia de respaldo 2 -
+            still_na = dt_str.isna() # Mascara de conversiones fallidas
             if still_na.any():
-                dt_str = dt_str.fillna(pd.to_datetime(s[still_na], errors='coerce', format='mixed'))
+                dt_str = dt_str.fillna(pd.to_datetime(s[still_na], errors='coerce', format='mixed')) # Permite que Pandas intente adivinar dinámicamente el formato de texto
 
         return dt_str.dt.round('min')
+        # Devuelve la serie con todas las fechas unificadas como objetos datetime64 con redondeo al minuto más cercano
 
     def extract_tag_pairs(self, df_raw):
         """
         Detecta automáticamente las parejas (columna_tiempo, columna_valor).
         Identifica pares con prefijo 'Time_' o columnas adyacentes en el dataset.
         """
-        pairs = []
-        cols = list(df_raw.columns)
+        pairs = [] # Lista vacía para guardar las parejas encontradas en forma de tuplas
+        cols = list(df_raw.columns) # Extrae los nombres de todas las columnas
         for col in cols:
             if col.startswith('Time_'):
-                val_col = col.replace('Time_', '', 1)
+                val_col = col.replace('Time_', '', 1) # Extrae nombre tag
                 if val_col in cols:
                     pairs.append((col, val_col))
 
+        # Estrategia de respaldo
         if not pairs and len(cols) >= 2:
             for i in range(0, len(cols) - 1, 2):
-                pairs.append((cols[i], cols[i + 1]))
+                pairs.append((cols[i], cols[i + 1])) # Empareja la columna en la posición actual con la adyacente
                 
         return pairs
 
