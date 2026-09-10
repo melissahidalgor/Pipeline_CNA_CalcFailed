@@ -13,3 +13,6 @@ logs/*.log
 
 # Configuración del editor
 .vscode/
+
+# Data
+data/
