@@ -17,8 +17,8 @@ class DatasetVisualizer:
         self.thresholds = self._load_thresholds(config_path)
         # Configuración estética base para gráficos
         sns.set_theme(style="whitegrid", palette="muted")
-        plt.rcParams.update({'font.sans-serif': 'Arial', 'font.size': 10})
-
+        plt.rcParams.update({'font.family': 'sans-serif', 'font.sans-serif': ['DejaVu Sans', 'Arial', 'Liberation Sans', 'sans-serif'],'font.size': 10})
+      
     def _load_thresholds(self, config_path):
         """Carga umbrales de alarma desde el archivo JSON de configuración."""
         defaults = {
